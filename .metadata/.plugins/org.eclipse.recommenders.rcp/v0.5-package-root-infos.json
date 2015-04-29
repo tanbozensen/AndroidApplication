@@ -1,0 +1,106 @@
+[
+  {
+    "symbolicName": "android-support-v7-appcompat",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "21297ae2bf22a0ce81c9b59992cf0693eec45d5b",
+    "jarFileModificationDate": "2015-04-14T00:05:04.687+09:00",
+    "location": "C:\\android\\project\\TanboZensen\\appcompat_v7\\libs\\android-support-v7-appcompat.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "android-support-v4",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "ded9acc6a9792b8f1afc470f0c9cd36d178914cd",
+    "jarFileModificationDate": "2015-04-14T00:04:59.375+09:00",
+    "location": "C:\\android\\project\\TanboZensen\\appcompat_v7\\libs\\android-support-v4.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "google-play-services_lib",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "9fae0abd1f4fb06c6168f5276419045adf5ae239",
+    "jarFileModificationDate": "2015-04-21T06:22:57.109+09:00",
+    "location": "C:\\android\\project\\TanboZensen\\google-play-services_lib\\bin\\google-play-services_lib.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "appcompat_v7",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "ab80db03c4c54e4d969a18f9fafc6eb630d4a135",
+    "jarFileModificationDate": "2015-04-21T06:22:55.531+09:00",
+    "location": "C:\\android\\project\\TanboZensen\\appcompat_v7\\bin\\appcompat_v7.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "android",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "8e2d4e256cc66152953d0fa1799263b57d911c46",
+    "jarFileModificationDate": "2015-04-14T21:14:57.437+09:00",
+    "location": "C:\\android-sdk-windows\\platforms\\android-16\\android.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "google-play-services",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "38c2f8e192dc24ddbf6cae2784f3d4267af66a3e",
+    "jarFileModificationDate": "2015-04-14T21:36:48.234+09:00",
+    "location": "C:\\android\\project\\TanboZensen\\google-play-services_lib\\libs\\google-play-services.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "android",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "d57ae00e81cc35b3e5a758e746aba25dd4c3392f",
+    "jarFileModificationDate": "2011-07-24T15:09:27.500+09:00",
+    "location": "C:\\android-sdk-windows\\platforms\\android-9\\android.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "annotations",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "46779c0ac854555b8f541cbb5293054e1db69d1f",
+    "jarFileModificationDate": "2015-04-14T00:10:55.687+09:00",
+    "location": "C:\\android-sdk-windows\\tools\\support\\annotations.jar",
+    "javaRuntime": false
+  }
+]
