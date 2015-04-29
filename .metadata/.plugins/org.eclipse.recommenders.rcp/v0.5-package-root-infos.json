@@ -26,16 +26,16 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "google-play-services_lib",
+    "symbolicName": "android",
     "version": {
       "major": -1,
       "minor": -1,
       "micro": -1,
       "qualifier": ""
     },
-    "jarFileFingerprint": "9fae0abd1f4fb06c6168f5276419045adf5ae239",
-    "jarFileModificationDate": "2015-04-21T06:22:57.109+09:00",
-    "location": "C:\\android\\project\\TanboZensen\\google-play-services_lib\\bin\\google-play-services_lib.jar",
+    "jarFileFingerprint": "8e2d4e256cc66152953d0fa1799263b57d911c46",
+    "jarFileModificationDate": "2015-04-14T21:14:57.437+09:00",
+    "location": "C:\\android-sdk-windows\\platforms\\android-16\\android.jar",
     "javaRuntime": false
   },
   {
@@ -52,29 +52,16 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "android",
+    "symbolicName": "google-play-services_lib",
     "version": {
       "major": -1,
       "minor": -1,
       "micro": -1,
       "qualifier": ""
     },
-    "jarFileFingerprint": "8e2d4e256cc66152953d0fa1799263b57d911c46",
-    "jarFileModificationDate": "2015-04-14T21:14:57.437+09:00",
-    "location": "C:\\android-sdk-windows\\platforms\\android-16\\android.jar",
-    "javaRuntime": false
-  },
-  {
-    "symbolicName": "google-play-services",
-    "version": {
-      "major": -1,
-      "minor": -1,
-      "micro": -1,
-      "qualifier": ""
-    },
-    "jarFileFingerprint": "38c2f8e192dc24ddbf6cae2784f3d4267af66a3e",
-    "jarFileModificationDate": "2015-04-14T21:36:48.234+09:00",
-    "location": "C:\\android\\project\\TanboZensen\\google-play-services_lib\\libs\\google-play-services.jar",
+    "jarFileFingerprint": "9fae0abd1f4fb06c6168f5276419045adf5ae239",
+    "jarFileModificationDate": "2015-04-21T06:22:57.109+09:00",
+    "location": "C:\\android\\project\\TanboZensen\\google-play-services_lib\\bin\\google-play-services_lib.jar",
     "javaRuntime": false
   },
   {
@@ -88,6 +75,19 @@
     "jarFileFingerprint": "d57ae00e81cc35b3e5a758e746aba25dd4c3392f",
     "jarFileModificationDate": "2011-07-24T15:09:27.500+09:00",
     "location": "C:\\android-sdk-windows\\platforms\\android-9\\android.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "google-play-services",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "38c2f8e192dc24ddbf6cae2784f3d4267af66a3e",
+    "jarFileModificationDate": "2015-04-14T21:36:48.234+09:00",
+    "location": "C:\\android\\project\\TanboZensen\\google-play-services_lib\\libs\\google-play-services.jar",
     "javaRuntime": false
   },
   {

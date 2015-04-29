@@ -1529,6 +1529,9 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020077;
     }
     public static final class id {
+        public static final int RadioButton1=0x7f060057;
+        public static final int RadioButtoni2=0x7f060058;
+        public static final int RadioGroup=0x7f060056;
         public static final int action_bar=0x7f060032;
         public static final int action_bar_activity_content=0x7f060015;
         public static final int action_bar_container=0x7f060031;
@@ -1540,7 +1543,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f06003a;
-        public static final int action_settings=0x7f060056;
+        public static final int action_settings=0x7f060059;
         public static final int activity_chooser_view_content=0x7f06003b;
         public static final int adjust_height=0x7f06001b;
         public static final int adjust_width=0x7f06001a;
