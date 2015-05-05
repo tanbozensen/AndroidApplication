@@ -13,8 +13,12 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="sPhaseJString" key="selection"/>
+		<item value="sPhase" key="selection"/>
 		<list key="findhistory">
+			<item value="sPhase"/>
+			<item value="addMarker"/>
+			<item value="marker"/>
+			<item value="HUE_GREEN"/>
 			<item value="sPhaseJString"/>
 			<item value="locman"/>
 			<item value="requestLocationUpdates"/>

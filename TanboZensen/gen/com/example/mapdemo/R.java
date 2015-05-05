@@ -1525,8 +1525,10 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f020073;
         public static final int ic_plusone_standard_off_client=0x7f020074;
         public static final int ic_plusone_tall_off_client=0x7f020075;
-        public static final int powered_by_google_dark=0x7f020076;
-        public static final int powered_by_google_light=0x7f020077;
+        public static final int ine_72x72=0x7f020076;
+        public static final int nae_72x72=0x7f020077;
+        public static final int powered_by_google_dark=0x7f020078;
+        public static final int powered_by_google_light=0x7f020079;
     }
     public static final class id {
         public static final int RadioButton1=0x7f060057;
@@ -1543,7 +1545,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f06003a;
-        public static final int action_settings=0x7f060059;
+        public static final int action_settings=0x7f06005a;
         public static final int activity_chooser_view_content=0x7f06003b;
         public static final int adjust_height=0x7f06001b;
         public static final int adjust_width=0x7f06001a;
@@ -1551,6 +1553,7 @@ containing a value of this type.
         public static final int beginning=0x7f060011;
         public static final int book_now=0x7f06002a;
         public static final int bottom=0x7f060053;
+        public static final int button_get=0x7f060059;
         public static final int buyButton=0x7f060024;
         public static final int buy_now=0x7f060029;
         public static final int buy_with_google=0x7f060028;

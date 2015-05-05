@@ -28,8 +28,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.util.EntityUtils;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.HttpEntity;
+import org.json.JSONObject;
+import org.json.JSONArray;
 import android.os.StrictMode;
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import org.apache.http.entity.StringEntity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,9 +44,12 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
 	private double mLatitude = 34.0d + 46.0d/60 + 41.0d/(60*60);
 	private double mLongitude = 135.0d + 15.0d/60 + 49.0d/(60*60);
 	private GoogleMap mMap = null;
+	private Marker mMarker;
 	private String sPhase = "0";
 	private String sPhaseJString = "田植え";
+	private final String sPhaseTaue = "0";
 	private BitmapDescriptor mIcon;
+    private static final int GET_MAX_SIZE  = 50;
 	LocationManager locman;
 	
     @Override
@@ -52,6 +60,8 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
         seekButton.setOnClickListener(this);
         View setPinButton = findViewById(R.id.setpin_button);
         setPinButton.setOnClickListener(this);
+        View getButton = findViewById(R.id.button_get);
+        getButton.setOnClickListener(this);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.RadioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 		    @Override
@@ -63,22 +73,24 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
 		            if (checked) {
 		            	sPhase = "0";
 		            	sPhaseJString = "田植え";
-		            	mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-
+		            	// mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+		            	mIcon = BitmapDescriptorFactory.fromResource(R.drawable.nae_72x72);
 		            }
 		            break;
 		        case R.id.RadioButtoni2:
 		            if (checked) {
 		            	sPhase = "1";
 		            	sPhaseJString = "稲刈り";
-		            	mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+		            	//mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+		            	mIcon = BitmapDescriptorFactory.fromResource(R.drawable.ine_72x72);
 		            }
 		            break;
 		        default:
 		            break;
 		    }		    }
         });
-        mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        // mIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+    	mIcon = BitmapDescriptorFactory.fromResource(R.drawable.nae_72x72);
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
 		
         locman = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -93,9 +105,9 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
         	MarkerOptions options = new MarkerOptions();
         	options.position(location);
         	options.title("六甲山");
-        	Marker marker = mMap.addMarker(options);
+        	mMarker = mMap.addMarker(options);
         	// インフォウィンドウ表示
-        	marker.showInfoWindow();
+        	mMarker.showInfoWindow();
         }
     }
 
@@ -107,6 +119,79 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
     	            locman.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,0,this);          
     	        }
     	        break;
+    		case R.id.button_get:
+    	        Toast.makeText(this, "Start Getting Info", Toast.LENGTH_LONG).show();
+    			HttpClient httpGetClient = new DefaultHttpClient();
+    			StringBuilder urlGet = new StringBuilder("http://tanbozensen.herokuapp.com/api/tanbos?year=2015");
+            	HttpGet getRequest = new HttpGet(urlGet.toString());
+            	HttpResponse httpResponse = null;
+
+            	try {
+            	    httpResponse = httpGetClient.execute(getRequest);
+            	} catch (Exception e) {
+            	    Log.d("JSONSampleActivity", "Error Execute");
+            	    return;
+            	}            	
+            	
+            	int status = httpResponse.getStatusLine().getStatusCode();
+
+            	String json = null;
+            	if (httpResponse != null && HttpStatus.SC_OK == status) {
+            	    try {
+            	    	HttpEntity httpEntity = httpResponse.getEntity();
+            	    	json = EntityUtils.toString(httpEntity);            	    	
+            	    	JSONArray jsonArray = new JSONArray(json);
+
+            	    	mMarker.remove();
+            	    	int arraySize = jsonArray.length();
+            	    	double tmpLatitude;
+            	    	double tmpLongitude;
+            	    	String sLatitude;
+            	    	String sLongitude;
+            	    	String done_date;
+            	    	String phase;
+            	        for(int i = 0; i < arraySize; i++)
+            	        { 
+            	        	if(i<GET_MAX_SIZE) {
+	            	            JSONObject jsonObj = jsonArray.getJSONObject(arraySize-i-1);
+	            	            done_date = jsonObj.getString("done_date");
+	            	            sLatitude = jsonObj.getString("latitude");
+	            	            tmpLatitude = Double.parseDouble(sLatitude);
+	            	            sLongitude = jsonObj.getString("longitude");
+	            	            tmpLongitude = Double.parseDouble(sLongitude);
+	            	            phase = jsonObj.getString("phase");
+	            	    		if (phase.equals(sPhaseTaue)){
+	            	    			sPhaseJString = "田植え";
+	            	    			mIcon = BitmapDescriptorFactory.fromResource(R.drawable.nae_72x72);
+	            	    		}
+	            	    		else {
+	            	    			sPhaseJString = "稲刈り";
+	            	    			mIcon = BitmapDescriptorFactory.fromResource(R.drawable.ine_72x72);	            	    			
+	            	    		}
+            	            	LatLng location = new LatLng(tmpLatitude, tmpLongitude);
+            	            	MarkerOptions options = new MarkerOptions();
+            	            	options.position(location);
+            	            	options.title(sPhaseJString + ":" + done_date);
+            	            	options.icon(mIcon);
+            	            	mMarker = mMap.addMarker(options);
+            	            	// インフォウィンドウ表示
+            	            	mMarker.showInfoWindow();
+            	        	}
+            	        	else {
+            	        		break;
+            	        	}
+            	        }
+            	    	Log.d("JSONSampleActivity", "OK");
+            	    } catch (Exception e) {
+            	    	e.printStackTrace();
+						Log.d("JSONSampleActivity", "Error");
+            	    }
+            	} else {
+            	    Log.d("JSONSampleActivity", "Status" + status);
+            	    return;
+            	}
+            	
+            	break;
     		case R.id.setpin_button:
             	// マーカー設定
     			CameraPosition cameraPos = mMap.getCameraPosition();
@@ -119,7 +204,7 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
     			SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
     			String sDate = sdformat.format(date);
             	Toast.makeText(this, "JSON用文字列\n緯度:" + sLatitude + "\n経度:" + sLongitude + "\n日付:" + sDate, Toast.LENGTH_LONG).show();
-    			
+    			 
     			// マーカー設定
     			if (mMap != null) {
 	    	        Toast.makeText(this, "Add Marker!", Toast.LENGTH_LONG).show();
@@ -128,9 +213,9 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
 	            	options.position(location);
 	            	options.title(sPhaseJString + ":" + sDate);
 	            	options.icon(mIcon);
-	            	Marker marker = mMap.addMarker(options);
+	            	mMarker = mMap.addMarker(options);
 	            	// インフォウィンドウ表示
-	            	marker.showInfoWindow();
+	            	mMarker.showInfoWindow();
 	            	Toast.makeText(this, "マーカー設置\n緯度:" + cameraPos.target.latitude + "\n経度:" + cameraPos.target.longitude, Toast.LENGTH_LONG).show();
     			}
             	
@@ -138,7 +223,6 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
     			HttpClient httpClient = new DefaultHttpClient();
     			HttpPost post = new HttpPost(url);
     			     			
-    			if(true) { // false:test
     			try{
 //    				String strJson = "{ \"latitude\": 10.0290141, \"longitude\": 129.0290141, \"phase\": 1, \"rice_type\": 1, \"done_date\": \"2015-04-29\" }";
     				String strJson = "{ \"latitude\": " + sLatitude + ", \"longitude\": " + sLongitude + ", \"phase\": " + sPhase + ", \"rice_type\": 1, \"done_date\": \"" + sDate + "\" }";
@@ -164,7 +248,6 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
     			    e.printStackTrace();
     			    Toast.makeText(this, "POST FAILURE!", Toast.LENGTH_LONG).show();
     			}
-    			}
 
     			break;
     	}
@@ -188,8 +271,6 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
     
     @Override
     public void onLocationChanged(Location location){
-    	double tempLatitude, tempLongitude;
-    	double Do, Fun, Byou;
     	LatLng Position;
     	
         Log.v("----------", "----------");
@@ -203,27 +284,8 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
         Log.v("Speed", String.valueOf(location.getSpeed())); 
         Log.v("Bearing", String.valueOf(location.getBearing()));
 
-        tempLatitude = location.getLatitude();
-        tempLongitude = location.getLongitude();
-
-        Do = (int)tempLatitude;
-        tempLatitude = tempLatitude - Do;
-        tempLatitude = tempLatitude * 100;
-        Fun = (int)(tempLatitude);
-        tempLatitude = tempLatitude - Fun;
-        tempLatitude = tempLatitude * 100;
-        Byou = tempLatitude;
-//        Toast.makeText(this, String.valueOf(Do), Toast.LENGTH_LONG).show();
-    	mLatitude = Do + Fun/60 + Byou/(60*60);
-
-        Do = (int)tempLongitude;
-        tempLongitude = tempLongitude - Do;
-        tempLongitude = tempLongitude * 100;
-        Fun = (int)(tempLongitude);
-        tempLongitude = tempLongitude - Fun;
-        tempLongitude = tempLongitude * 100;
-        Byou = tempLongitude;
-    	mLongitude = Do + Fun/60 + Byou/(60*60);    	
+        mLatitude = location.getLatitude();
+        mLongitude = location.getLongitude();
 
     	//画面位置を取得先に移動する
     	Position = new LatLng(mLatitude, mLongitude);

@@ -70,6 +70,15 @@
 
 	        </RadioButton>
 	</RadioGroup>
+
+	<Button
+	    android:id="@+id/button_get"
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:layout_gravity="right"
+	    android:layout_marginLeft="40dp"
+	    android:minHeight="32dp"
+	    android:text="更新" />
     
 </LinearLayout>
 
