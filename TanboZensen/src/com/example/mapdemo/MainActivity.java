@@ -13,6 +13,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import android.location.*;
 import android.content.*;
 import android.util.Log;
@@ -30,11 +32,12 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpDelete;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import android.os.StrictMode;
 import java.io.IOException;
-import java.io.ByteArrayOutputStream;
 import org.apache.http.entity.StringEntity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,12 +59,15 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewById(R.id.bottom_layout).setVisibility(View.INVISIBLE);
         View seekButton = findViewById(R.id.seek_button);
         seekButton.setOnClickListener(this);
         View setPinButton = findViewById(R.id.setpin_button);
-        setPinButton.setOnClickListener(this);
+        setPinButton.setOnClickListener(this); 
         View getButton = findViewById(R.id.button_get);
-        getButton.setOnClickListener(this);
+        getButton.setOnClickListener(this); 
+        View deleteButton = findViewById(R.id.button_del); 
+        deleteButton.setOnClickListener(this); 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.RadioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 		    @Override
@@ -101,26 +107,79 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
         	.target(location).zoom(10.0f)
         	.bearing(0).build();
         	mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPos));
-        	// マーカー設定
-        	MarkerOptions options = new MarkerOptions();
-        	options.position(location);
-        	options.title("六甲山");
-        	mMarker = mMap.addMarker(options);
-        	// インフォウィンドウ表示
-        	mMarker.showInfoWindow();
+
+        	// マーカータップ時のイベントハンドラ登録
+        	mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
+        		@Override
+        		public boolean onMarkerClick(Marker marker) {
+        	        findViewById(R.id.bottom_layout).setVisibility(View.VISIBLE);
+        	        mMarker = marker;
+        			return false;
+        		}
+        	});
+        	// 地図タップ時のイベントハンドラ登録
+        	mMap.setOnMapClickListener(new OnMapClickListener() {
+        		@Override
+        		public void onMapClick(LatLng point) {
+        	        findViewById(R.id.bottom_layout).setVisibility(View.INVISIBLE);
+        		}
+        	});        	
         }
     }
 
     @Override public void onClick(View v) {
     	switch(v.getId()){ 
     		case R.id.seek_button:
-    	        Toast.makeText(this, "Start Seeking", Toast.LENGTH_LONG).show();
+    	        Toast.makeText(this, "現在地取得開始・・・", Toast.LENGTH_LONG).show();
     	        if (locman != null){
     	            locman.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,0,this);          
     	        }
     	        break;
+    		case R.id.button_del:
+    	        findViewById(R.id.bottom_layout).setVisibility(View.INVISIBLE);
+    	        String sRemoveId;
+    	        sRemoveId = mMarker.getSnippet();
+
+    	        try {    	        	
+	    	        String delUrl = "http://tanbozensen.herokuapp.com/api/tanbos/" + sRemoveId;
+	    	        HttpDelete deleteMethod = new HttpDelete(delUrl);
+	    	        DefaultHttpClient httpDelClient = new DefaultHttpClient();
+        			Toast.makeText(getApplicationContext(), "delUrl："+delUrl, Toast.LENGTH_SHORT).show();
+            	    Log.d("DelteteButton", "delUrl："+delUrl);
+
+    				deleteMethod.addHeader("Content-type", "application/json");
+    				// deleteMethod.setHeader("Content-Type", "text/plain; charset=utf-8");
+
+    				// 要求を出して応答を取得する
+    		        String result = httpDelClient.execute(deleteMethod, new ResponseHandler<String>(){
+    		            public String handleResponse(HttpResponse response) throws IOException{
+    		                switch(response.getStatusLine().getStatusCode()){
+    		                case HttpStatus.SC_OK:
+    		                    return EntityUtils.toString(response.getEntity(), "UTF-8");
+    		                case HttpStatus.SC_NOT_FOUND:
+//    		                    return "404";
+    		                    return EntityUtils.toString(response.getEntity(), "UTF-8");
+    		                default:
+//    		                    return "unknown";
+    		                    return EntityUtils.toString(response.getEntity(), "UTF-8");
+    		                }
+    		            }
+    		        });
+            	    Log.d("DelteteResult", result);
+
+    	    		// マーカーの削除
+        			mMarker.remove();
+        	        Toast.makeText(this, "田んぼ情報を削除しました\nID:"+sRemoveId, Toast.LENGTH_LONG).show();
+    	    	} catch (ClientProtocolException e) {
+    	    		e.printStackTrace();
+    	    		return;
+    	    	} catch (IOException e) {
+    	    		e.printStackTrace();
+    	    		return;
+    	    	}
+    	        break;
     		case R.id.button_get:
-    	        Toast.makeText(this, "Start Getting Info", Toast.LENGTH_LONG).show();
+    	        Toast.makeText(this, "田んぼ情報の取得開始・・・", Toast.LENGTH_LONG).show();
     			HttpClient httpGetClient = new DefaultHttpClient();
     			StringBuilder urlGet = new StringBuilder("http://tanbozensen.herokuapp.com/api/tanbos?year=2015");
             	HttpGet getRequest = new HttpGet(urlGet.toString());
@@ -142,7 +201,7 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
             	    	json = EntityUtils.toString(httpEntity);            	    	
             	    	JSONArray jsonArray = new JSONArray(json);
 
-            	    	mMarker.remove();
+            	    	mMap.clear(); // マーカー全削除
             	    	int arraySize = jsonArray.length();
             	    	double tmpLatitude;
             	    	double tmpLongitude;
@@ -150,6 +209,7 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
             	    	String sLongitude;
             	    	String done_date;
             	    	String phase;
+            	    	String sId;
             	        for(int i = 0; i < arraySize; i++)
             	        { 
             	        	if(i<GET_MAX_SIZE) {
@@ -160,6 +220,7 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
 	            	            sLongitude = jsonObj.getString("longitude");
 	            	            tmpLongitude = Double.parseDouble(sLongitude);
 	            	            phase = jsonObj.getString("phase");
+	            	            sId = jsonObj.getString("id");
 	            	    		if (phase.equals(sPhaseTaue)){
 	            	    			sPhaseJString = "田植え";
 	            	    			mIcon = BitmapDescriptorFactory.fromResource(R.drawable.nae_72x72);
@@ -173,6 +234,8 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
             	            	options.position(location);
             	            	options.title(sPhaseJString + ":" + done_date);
             	            	options.icon(mIcon);
+            	            	options.snippet(sId);
+            	            	options.draggable(true);
             	            	mMarker = mMap.addMarker(options);
             	            	// インフォウィンドウ表示
             	            	mMarker.showInfoWindow();
@@ -182,6 +245,7 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
             	        	}
             	        }
             	    	Log.d("JSONSampleActivity", "OK");
+            			Toast.makeText(getApplicationContext(), "田んぼ情報の更新を完了しました", Toast.LENGTH_SHORT).show();
             	    } catch (Exception e) {
             	    	e.printStackTrace();
 						Log.d("JSONSampleActivity", "Error");
@@ -194,6 +258,8 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
             	break;
     		case R.id.setpin_button:
             	// マーカー設定
+    			String sNewId = "";
+    			
     			CameraPosition cameraPos = mMap.getCameraPosition();
     			mLatitude = cameraPos.target.latitude;
     			mLongitude = cameraPos.target.longitude;
@@ -203,22 +269,8 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
     			Date date = new Date();
     			SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
     			String sDate = sdformat.format(date);
-            	Toast.makeText(this, "JSON用文字列\n緯度:" + sLatitude + "\n経度:" + sLongitude + "\n日付:" + sDate, Toast.LENGTH_LONG).show();
+//            	Toast.makeText(this, "JSON用文字列\n緯度:" + sLatitude + "\n経度:" + sLongitude + "\n日付:" + sDate, Toast.LENGTH_LONG).show();
     			 
-    			// マーカー設定
-    			if (mMap != null) {
-	    	        Toast.makeText(this, "Add Marker!", Toast.LENGTH_LONG).show();
-	            	LatLng location = new LatLng(mLatitude, mLongitude);
-	            	MarkerOptions options = new MarkerOptions();
-	            	options.position(location);
-	            	options.title(sPhaseJString + ":" + sDate);
-	            	options.icon(mIcon);
-	            	mMarker = mMap.addMarker(options);
-	            	// インフォウィンドウ表示
-	            	mMarker.showInfoWindow();
-	            	Toast.makeText(this, "マーカー設置\n緯度:" + cameraPos.target.latitude + "\n経度:" + cameraPos.target.longitude, Toast.LENGTH_LONG).show();
-    			}
-            	
             	String url="http://tanbozensen.herokuapp.com/api/tanbos/";
     			HttpClient httpClient = new DefaultHttpClient();
     			HttpPost post = new HttpPost(url);
@@ -243,12 +295,31 @@ public class MainActivity extends FragmentActivity implements LocationListener, 
     		                }
     		            }
     		        });
-    			    Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+    			    Toast.makeText(this, "登録を完了しました", Toast.LENGTH_LONG).show();
+//    			    Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+    			    JSONObject replyJsonObject = new JSONObject(result);
+//    			    Toast.makeText(this, "id:" + replyJsonObject.getString("id"), Toast.LENGTH_LONG).show();
+    			    sNewId = replyJsonObject.getString("id");
+    			    
     			} catch (Exception e) {
     			    e.printStackTrace();
-    			    Toast.makeText(this, "POST FAILURE!", Toast.LENGTH_LONG).show();
+    			    Toast.makeText(this, "登録を失敗しました", Toast.LENGTH_LONG).show();
     			}
 
+    			// マーカー設定
+    			if (mMap != null) {
+	            	LatLng location = new LatLng(mLatitude, mLongitude);
+	            	MarkerOptions options = new MarkerOptions();
+	            	options.position(location);
+	            	options.title(sPhaseJString + ":" + sDate);
+	            	options.icon(mIcon);
+	            	options.snippet(sNewId);
+	            	mMarker = mMap.addMarker(options);
+	            	// インフォウィンドウ表示
+	            	mMarker.showInfoWindow();
+//	            	Toast.makeText(this, "マーカー設置\n緯度:" + cameraPos.target.latitude + "\n経度:" + cameraPos.target.longitude, Toast.LENGTH_LONG).show();
+    			}
+            	
     			break;
     	}
     }    

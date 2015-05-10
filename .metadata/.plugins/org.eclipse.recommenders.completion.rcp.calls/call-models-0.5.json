@@ -8,5 +8,10 @@
     "location": "C:\\android\\project\\TanboZensen\\TanboZensen\\gen",
     "status": "UNRESOLVED",
     "error": "No class path info available for \u0027C:\\android\\project\\TanboZensen\\TanboZensen\\gen\u0027. Skipped."
+  },
+  "C:\\android\\project\\TanboZensen\\google-play-services_lib\\libs\\google-play-services.jar": {
+    "location": "C:\\android\\project\\TanboZensen\\google-play-services_lib\\libs\\google-play-services.jar",
+    "status": "UNRESOLVED",
+    "error": "No call model found for \u0027C:\\android\\project\\TanboZensen\\google-play-services_lib\\libs\\google-play-services.jar\u0027. Neither fingerprint \u002738c2f8e192dc24ddbf6cae2784f3d4267af66a3e\u0027 nor symbolic name \u0027google-play-services\u0027 are known."
   }
 }

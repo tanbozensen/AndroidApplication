@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="sPhase" key="selection"/>
+		<item value="mMap" key="selection"/>
 		<list key="findhistory">
+			<item value="mMap"/>
+			<item value="Delete"/>
+			<item value="Log"/>
+			<item value="setOnMarkerClickListener"/>
 			<item value="sPhase"/>
 			<item value="addMarker"/>
 			<item value="marker"/>
 			<item value="HUE_GREEN"/>
-			<item value="sPhaseJString"/>
-			<item value="locman"/>
-			<item value="requestLocationUpdates"/>
-			<item value="tempLatitude"/>
 		</list>
 		<list key="replacehistory">
 			<item value="tempLongitude"/>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <include 
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/include_map_fragment" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    android:background="@android:drawable/bottom_bar"
+        android:orientation="vertical" >
+
+	<RadioGroup
+	    android:id="@+id/RadioGroup"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="top"
+	    android:orientation="horizontal" >
+
+	    <RadioButton
+	        android:id="@+id/RadioButton1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="top|left"
+	        android:checked="true"
+	        android:text="田植え" >
+
+	        </RadioButton>
+
+	    <RadioButton
+	        android:id="@+id/RadioButtoni2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="top|right"
+	        android:text="稲刈り" >
+
+	        </RadioButton>
+	</RadioGroup>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingTop="5dp" >
+	
+	<TableRow
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:gravity="bottom|center_vertical"
+	    android:paddingBottom="20dip" >
+
+	    <Button
+	        android:id="@+id/seek_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:drawableTop="@drawable/ic_menu_search"
+	        android:text="現在地" />
+
+	    <Button
+	        android:id="@+id/setpin_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:drawableTop="@drawable/ic_menu_myplaces"
+	        android:text="登録" />
+
+	    <Button
+	        android:id="@+id/button_get"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:drawableTop="@drawable/ic_menu_rotate"
+	        android:text="更新" />
+
+	</TableRow>	    
+    </TableLayout>	    
+	    
+    </LinearLayout>
+
+    <LinearLayout
+	    android:id="@+id/bottom_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@android:drawable/bottom_bar"
+        android:gravity="bottom"
+        android:orientation="vertical" >
+    
+	    <TableLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:paddingTop="5dp" >
+		
+		<TableRow
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:gravity="bottom|center_vertical"
+		    android:paddingBottom="5dip" >
+
+			<Button
+			    android:id="@+id/button_delete"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center"
+		        android:layout_weight="1"
+			    android:drawableTop="@drawable/ic_menu_delete"
+			    android:text="削除" />
+        
+	</TableRow>	    
+    </TableLayout>	    
+        
+    </LinearLayout>
+        
+</RelativeLayout>

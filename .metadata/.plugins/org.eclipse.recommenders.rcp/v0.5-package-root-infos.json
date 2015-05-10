@@ -26,19 +26,6 @@
     "javaRuntime": false
   },
   {
-    "symbolicName": "android",
-    "version": {
-      "major": -1,
-      "minor": -1,
-      "micro": -1,
-      "qualifier": ""
-    },
-    "jarFileFingerprint": "8e2d4e256cc66152953d0fa1799263b57d911c46",
-    "jarFileModificationDate": "2015-04-14T21:14:57.437+09:00",
-    "location": "C:\\android-sdk-windows\\platforms\\android-16\\android.jar",
-    "javaRuntime": false
-  },
-  {
     "symbolicName": "appcompat_v7",
     "version": {
       "major": -1,
@@ -46,8 +33,8 @@
       "micro": -1,
       "qualifier": ""
     },
-    "jarFileFingerprint": "ab80db03c4c54e4d969a18f9fafc6eb630d4a135",
-    "jarFileModificationDate": "2015-04-21T06:22:55.531+09:00",
+    "jarFileFingerprint": "6ba59371095ab1fe57f7bdde54c72ab418ca9127",
+    "jarFileModificationDate": "2015-05-10T09:40:34.343+09:00",
     "location": "C:\\android\\project\\TanboZensen\\appcompat_v7\\bin\\appcompat_v7.jar",
     "javaRuntime": false
   },
@@ -59,9 +46,22 @@
       "micro": -1,
       "qualifier": ""
     },
-    "jarFileFingerprint": "9fae0abd1f4fb06c6168f5276419045adf5ae239",
-    "jarFileModificationDate": "2015-04-21T06:22:57.109+09:00",
+    "jarFileFingerprint": "abc424b65c46ff835e2c8efc60c78a5aa180521b",
+    "jarFileModificationDate": "2015-05-10T09:40:36.015+09:00",
     "location": "C:\\android\\project\\TanboZensen\\google-play-services_lib\\bin\\google-play-services_lib.jar",
+    "javaRuntime": false
+  },
+  {
+    "symbolicName": "android",
+    "version": {
+      "major": -1,
+      "minor": -1,
+      "micro": -1,
+      "qualifier": ""
+    },
+    "jarFileFingerprint": "8e2d4e256cc66152953d0fa1799263b57d911c46",
+    "jarFileModificationDate": "2015-04-14T21:14:57.437+09:00",
+    "location": "C:\\android-sdk-windows\\platforms\\android-16\\android.jar",
     "javaRuntime": false
   },
   {
